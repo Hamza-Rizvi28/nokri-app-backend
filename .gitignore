@@ -2,7 +2,12 @@
 .project
 .classpath
 .settings
+api/.project
+api/target/
+api/build/
+api/.settings/
 
 # Maven
 target/
+
 
