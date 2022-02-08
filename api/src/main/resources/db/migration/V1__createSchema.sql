@@ -23,24 +23,9 @@ create table job (
 create table user_job (
         user_id bigint not null,
         job_id bigint not null,
-        primary key(user_id,
-job_id),
+        primary key(user_id, job_id),
         constraint fk_user foreign key(user_id) references "user"(user_id),
         constraint fk_job foreign key(job_id) references job(job_id)
-);
-
-create table userprofile (
-        profile_id bigserial not null primary key,
-        user_id bigserial not null,
-        objective varchar(256),
-        country varchar(128),
-        city varchar(128),
-        street varchar(128),
-        zipcode int,
-        linkedin_url varchar(128),
-        country_code varchar(128),
-        contact_no int,
-        constraint fk_user foreign key(user_id) references "user"(user_id)
 );
 
 create table education (
@@ -50,15 +35,13 @@ create table education (
         university varchar(128),
         "degree" varchar(128),
         from_date text,
-        "to_date" text,
-        constraint fk_profile foreign key(profile_id) references userprofile(profile_id)
+        "to_date" text
 );
 
 create table project (
         project_id bigserial not null primary key,
         profile_id bigserial not null,
-        descripton text not null,
-        constraint fk_profile foreign key(profile_id) references userprofile(profile_id)
+        descripton text not null
 );
 
 create table work_experience (
@@ -68,6 +51,25 @@ create table work_experience (
         "to_date" text not null,
         organization varchar(128) not null,
         designation varchar(128) not null,
-        descripton text,
-        constraint fk_profile foreign key(profile_id) references userprofile(profile_id)
+        descripton text
+);
+
+create table userprofile (
+        profile_id bigserial not null primary key,
+        user_id bigserial unique not null,
+	education_id bigserial not null,
+	project_id bigserial not null,
+	work_experience_id bigserial not null,
+        objective varchar(256),
+        country varchar(128),
+        city varchar(128),
+        street varchar(128),
+        zipcode serial,
+        linkedin_url varchar(128),
+        country_code varchar(128),
+        contact_no int,
+        constraint fk_user_profile foreign key(user_id) references "user"(user_id),
+	constraint fk_education foreign key(education_id) references education(education_id),
+	constraint fk_project foreign key(project_id) references project(project_id),
+	constraint fk_work_experience foreign key(work_experience_id) references work_experience(work_experience_id)
 );
